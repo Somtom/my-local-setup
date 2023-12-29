@@ -1,3 +1,4 @@
+tap "homebrew/bundle"
 # set arguments for all 'brew install --cask' commands
 cask_args appdir: "~/Applications", require_sha: true
 
@@ -6,8 +7,8 @@ cask_args appdir: "~/Applications", require_sha: true
 brew "zsh"
 brew "pyenv"
 brew "pyenv-virtualenv"
+brew "poetry"
 cask "visual-studio-code"
-cask "poetry"
 cask "docker"
 
 # General software

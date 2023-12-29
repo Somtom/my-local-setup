@@ -1,4 +1,9 @@
 # SetMeUp Configuration File
+env_vars:
+  - name: GIT_FULL_NAME
+    description: Your full name that will be used for git commits
+  - name: GIT_EMAIL
+    description: Your email address that is used for git commits
 
 steps:
   # General
@@ -12,3 +17,22 @@ steps:
   - script: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     description: "Install ZSH and Oh My ZSH"
     completion_check: '[ -e ~/.oh-my-zsh ]'
+
+  # Set up Git
+  - script: |
+      git config --global user.name "$GIT_FULL_NAME"
+      git config --global user.email "$GIT_EMAIL"
+    description: "Configure Git user name and email"
+    completion_check: "git config --global user.name && git config --global user.email"
+  
+  - script: |
+      if [ ! -f ~/.ssh/id_rsa ]; then
+        ssh-keygen -t rsa -b 4096 -C "$GIT_USER_EMAIL"
+        ssh-add ~/.ssh/id_rsa
+        pbcopy < ~/.ssh/id_rsa.pub
+        echo "SSH key copied to clipboard. Opening GitHub SSH key page..."
+        open "https://github.com/settings/keys" || xdg-open "https://github.com/settings/keys"
+        read -p "Press Enter after adding the SSH key to GitHub..."
+      fi
+    description: "Generate SSH key for GitHub, copy to clipboard, and open GitHub SSH keys page"
+    completion_check: "[ -f ~/.ssh/id_rsa ]"
