@@ -1,0 +1,14 @@
+# SetMeUp Configuration File
+
+steps:
+  # General
+  - script: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+    description: "Install Homebrew"
+    completion_check: "which brew"
+
+  - brewfile: "Brewfile"
+    description: "Install development tools"
+
+  - script: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    description: "Install ZSH and Oh My ZSH"
+    completion_check: '[ -e ~/.oh-my-zsh ]'
