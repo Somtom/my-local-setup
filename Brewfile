@@ -1,6 +1,6 @@
 tap "homebrew/bundle"
 # set arguments for all 'brew install --cask' commands
-cask_args appdir: "~/Applications", require_sha: true
+cask_args appdir: "~/Applications"
 
 # Application for development
 
@@ -13,6 +13,7 @@ cask "docker"
 
 # General software
 cask "google-chrome"
+cask "google-drive"
 cask "logseq"
 cask "slack"
 cask "1password"
