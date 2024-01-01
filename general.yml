@@ -4,6 +4,8 @@ env_vars:
     description: Your full name that will be used for git commits
   - name: GIT_EMAIL
     description: Your email address that is used for git commits
+  - name: GMAIL_ADDRESS
+    description: Your gmail address that is used for Google Drive sync
 
 steps:
   # General
@@ -36,3 +38,16 @@ steps:
       fi
     description: "Generate SSH key for GitHub, copy to clipboard, and open GitHub SSH keys page"
     completion_check: "[ -f ~/.ssh/id_rsa ]"
+
+  - description: "Set up GoogleDrive sync after Google Drive Desktop has been installed"
+
+  # Create a link for logseq to the .logseq settings folder in the Google Drive
+  - script: |
+      target_dir="${HOME}/${GMAIL_ADDRESS} - Google Drive/My Drive/Logseq/.logseq"
+      local_dir="${HOME}/.logseq"
+
+      rm -rf ${local_dir}
+      ln -s "${target_dir}" ${local_dir}
+    description: "Create a link for logseq to the .logseq settings folder in the Google Drive"
+    completion_check: "[ -L ~/.logseq ]"
+  

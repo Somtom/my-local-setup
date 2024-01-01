@@ -17,5 +17,5 @@ brew install python
 
 3. Install SetMeUp
 ```bash
-pip install git+https://github.com/Somtom/SetMeUp.git
+pip3 install git+https://github.com/Somtom/SetMeUp.git
 ```
