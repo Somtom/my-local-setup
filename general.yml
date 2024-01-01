@@ -1,12 +1,3 @@
-# SetMeUp Configuration File
-env_vars:
-  - name: GIT_FULL_NAME
-    description: Your full name that will be used for git commits
-  - name: GIT_EMAIL
-    description: Your email address that is used for git commits
-  - name: GMAIL_ADDRESS
-    description: Your gmail address that is used for Google Drive sync
-
 steps:
   # General
   - script: '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
@@ -23,23 +14,29 @@ steps:
   # Set up Git
   - script: |
       git config --global user.name "$GIT_FULL_NAME"
-      git config --global user.email "$GIT_EMAIL"
+      git config --global user.email "$GIT_USER_EMAIL"
     description: "Configure Git user name and email"
     completion_check: "git config --global user.name && git config --global user.email"
-  
+    env_vars:
+      - name: GIT_FULL_NAME
+        description: Your full name that will be used for git commits
+      - name: GIT_USER_EMAIL
+        description: Your email address that is used for git commits
+
   - script: |
-      if [ ! -f ~/.ssh/id_rsa ]; then
-        ssh-keygen -t rsa -b 4096 -C "$GIT_USER_EMAIL"
-        ssh-add ~/.ssh/id_rsa
-        pbcopy < ~/.ssh/id_rsa.pub
+      if [ ! -f ~/.ssh/id_ed25519 ]; then
+        ssh-keygen -t ed25519 -C "$GIT_USER_EMAIL"
+        ssh-add ~/.ssh/id_ed25519
+        pbcopy < ~/.ssh/id_ed25519.pub
         echo "SSH key copied to clipboard. Opening GitHub SSH key page..."
         open "https://github.com/settings/keys" || xdg-open "https://github.com/settings/keys"
         read -p "Press Enter after adding the SSH key to GitHub..."
       fi
-    description: "Generate SSH key for GitHub, copy to clipboard, and open GitHub SSH keys page"
-    completion_check: "[ -f ~/.ssh/id_rsa ]"
-
-  - description: "Set up GoogleDrive sync after Google Drive Desktop has been installed"
+    description: "Generate SSH key for GitHub (Ed25519), copy to clipboard, and open GitHub SSH keys page"
+    completion_check: "[ -f ~/.ssh/id_ed25519 ]"
+    env_vars:
+      - name: GIT_USER_EMAIL
+        description: Your email address that is used for git commits
 
   # Create a link for logseq to the .logseq settings folder in the Google Drive
   - script: |
@@ -50,4 +47,6 @@ steps:
       ln -s "${target_dir}" ${local_dir}
     description: "Create a link for logseq to the .logseq settings folder in the Google Drive"
     completion_check: "[ -L ~/.logseq ]"
-  
+    env_vars:
+      - name: GMAIL_ADDRESS
+        description: Your gmail address that is used for Google Drive sync
