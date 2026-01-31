@@ -1,4 +1,3 @@
-tap "homebrew/bundle"
 tap "hashicorp/tap"
 
 # Application for development
