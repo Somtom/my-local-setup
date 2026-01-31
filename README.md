@@ -19,3 +19,15 @@ brew install python
 ```bash
 pip3 install git+https://github.com/Somtom/SetMeUp.git
 ```
+
+4. Run SetMeUp with this repository
+
+```bash
+setmeup plan general.yaml
+```
+
+then apply the plan
+
+```bash
+setmeup apply
+```

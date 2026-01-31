@@ -1,14 +1,18 @@
 tap "homebrew/bundle"
+tap "hashicorp/tap"
 
 # Application for development
 
 brew "python"
 brew "zsh"
-brew "pyenv"
-brew "pyenv-virtualenv"
 brew "poetry"
+brew "uv"
+brew "gh"
+brew "pre-commit"
+brew "azure-cli"
+brew "hashicorp/tap/terraform"
 cask "visual-studio-code"
-cask "docker"
+cask "docker-desktop"
 
 # General software
 cask "google-chrome"
@@ -17,3 +21,11 @@ cask "logseq"
 cask "slack"
 cask "1password"
 cask "spotify"
+cask "keepingyouawake"
+cask "iterm2"
+cask "ollama-app"
+cask "loom"
+cask "raycast"
+cask "signal"
+cask "logi-options+"
+cask "1password-cli"

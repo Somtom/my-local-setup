@@ -4,19 +4,56 @@ steps:
     description: "Install Homebrew"
     completion_check: "which brew"
 
-  - brewfile: "Brewfile"
+  - script: brew bundle --file Brewfile --upgrade
     description: "Install development tools"
+    completion_check: "brew bundle check --file Brewfile"
+
+  - script: curl -fsSL https://claude.ai/install.sh | bash
+    description: "Install Claude Code (native installer with auto-updates)"
+    completion_check: "which claude"
 
   - script: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     description: "Install ZSH and Oh My ZSH"
-    completion_check: '[ -e ~/.oh-my-zsh ]'
+    completion_check: "[ -e ~/.oh-my-zsh ]"
+
+  - script: |
+      sed -i '' 's/^ZSH_THEME=.*/ZSH_THEME="robbyrussell"/' ~/.zshrc
+      sed -i '' 's/^plugins=.*/plugins=(virtualenv git)/' ~/.zshrc
+      cp zsh/zshrc_custom ~/.zshrc_custom
+      if ! grep -q 'source ~/.zshrc_custom' ~/.zshrc 2>/dev/null; then
+        echo 'source ~/.zshrc_custom' >> ~/.zshrc
+      fi
+    description: "Configure shell theme, plugins, and custom config"
+    completion_check: "grep -q 'source ~/.zshrc_custom' ~/.zshrc"
+
+  - script: |
+      # Dock: auto-hide and small icons
+      defaults write com.apple.dock autohide -bool true
+      defaults write com.apple.dock tilesize -int 36
+      defaults write com.apple.dock minimize-to-application -bool true
+
+      # Finder: show extensions, path bar, list view
+      defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+      defaults write com.apple.finder ShowPathbar -bool true
+      defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+      # Restart affected apps
+      killall Dock
+      killall Finder
+    description: "Apply macOS defaults (Dock, Finder)"
+    completion_check: "defaults read com.apple.dock autohide | grep -q 1"
 
   # Set up Git
   - script: |
       git config --global user.name "$GIT_FULL_NAME"
       git config --global user.email "$GIT_USER_EMAIL"
-    description: "Configure Git user name and email"
-    completion_check: "git config --global user.name && git config --global user.email"
+      git config --global push.autoSetupRemote true
+      git config --global pull.rebase true
+      git config --global init.defaultBranch main
+      git config --global core.excludesfile ~/.gitignore_global
+      cp git/gitignore_global ~/.gitignore_global
+    description: "Configure Git settings and global gitignore"
+    completion_check: "git config --global user.name && git config --global core.excludesfile"
     env_vars:
       - name: GIT_FULL_NAME
         description: Your full name that will be used for git commits
@@ -38,15 +75,18 @@ steps:
       - name: GIT_USER_EMAIL
         description: Your email address that is used for git commits
 
-  # Create a link for logseq to the .logseq settings folder in the Google Drive
+  # VS Code
   - script: |
-      target_dir="${HOME}/${GMAIL_ADDRESS} - Google Drive/My Drive/Logseq/.logseq"
-      local_dir="${HOME}/.logseq"
+      VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
+      mkdir -p "$VSCODE_USER_DIR"
+      cp vscode/settings.json "$VSCODE_USER_DIR/settings.json"
+      cp vscode/keybindings.json "$VSCODE_USER_DIR/keybindings.json"
+    description: "Restore VS Code settings and keybindings"
+    completion_check: '[ -f "$HOME/Library/Application Support/Code/User/settings.json" ]'
 
-      rm -rf ${local_dir}
-      ln -s "${target_dir}" ${local_dir}
-    description: "Create a link for logseq to the .logseq settings folder in the Google Drive"
-    completion_check: "[ -L ~/.logseq ]"
-    env_vars:
-      - name: GMAIL_ADDRESS
-        description: Your gmail address that is used for Google Drive sync
+  - script: |
+      while IFS= read -r ext; do
+        code --install-extension "$ext" --force
+      done < vscode/extensions.txt
+    description: "Install VS Code extensions from curated list"
+    completion_check: "code --list-extensions | grep -q anthropic.claude-code"

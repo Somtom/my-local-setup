@@ -161,3 +161,6 @@ cython_debug/
 
 
 setmeup_plan.yaml
+
+# Mac
+.DS_Store

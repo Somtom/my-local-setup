@@ -1,0 +1,79 @@
+{
+  "files.autoSave": "onFocusChange",
+  "files.associations": {
+    "*.sql": "jinja-sql",
+    "*.yml": "jinja-yaml"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.inlineSuggest.enabled": true,
+  "files.exclude": {
+    "**/node_modules/**": true,
+    "**/tmp/**": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "github.copilot.enable": {
+    "*": "false",
+    "plaintext": true,
+    "markdown": true,
+    "scminput": false,
+    "python": "true",
+    "*.env": "false"
+  },
+  "python.terminal.activateEnvironment": false,
+  "jupyter.askForKernelRestart": false,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.rulers": [120],
+  "search.exclude": {
+    "**/tmp/**": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "[jinja-sql]": {
+    "editor.defaultFormatter": "dorzey.vscode-sqlfluff",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  "[jinja-html]": {
+    "editor.formatOnSave": false
+  },
+  "[python]": {
+    "editor.tabSize": 4
+  },
+  "[sql]": {
+    "editor.tabSize": 2
+  },
+  "[yaml]": {
+    "editor.tabSize": 2
+  },
+  "sqlfluff.linter.diagnosticSeverity": "warning",
+  "workbench.preferredDarkColorTheme": "Visual Studio Dark",
+  "python.interpreter.infoVisibility": "always",
+  "workbench.layoutControl.enabled": false,
+  "editor.formatOnSave": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "githubPullRequests.terminalLinksHandler": "github",
+  "githubPullRequests.pullBranch": "never",
+  "notebook.editorOptionsCustomizations": {
+    "editor.tabSize": 4,
+    "editor.indentSize": 4,
+    "editor.insertSpaces": false
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "json.schemas": [],
+  "diffEditor.renderSideBySide": true,
+  "git.openRepositoryInParentFolders": "never",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "python.analysis.typeCheckingMode": "standard",
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:claude-sonnet-4",
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "gitlens.views.commitDetails.files.layout": "list",
+  "diffEditor.maxComputationTime": 60000,
+  "chat.viewSessions.orientation": "stacked"
+}
