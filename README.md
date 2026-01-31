@@ -7,7 +7,7 @@ To get started, you need to perform the following steps:
 
 1. Install Homebrew and follow the steps listed after installation
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 2. Install Python
@@ -23,7 +23,7 @@ pip3 install git+https://github.com/Somtom/SetMeUp.git
 4. Run SetMeUp with this repository
 
 ```bash
-setmeup plan general.yaml
+setmeup plan general.yml
 ```
 
 then apply the plan

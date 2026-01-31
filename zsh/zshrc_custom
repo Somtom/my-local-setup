@@ -1,2 +1,3 @@
 # PATH
-export PATH="$PATH:$HOME/.local/bin"
+eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null)"
+export PATH="$HOME/.local/bin:$PATH"
